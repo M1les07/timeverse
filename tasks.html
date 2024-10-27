@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeverse - Tasks</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>$TIMEVERSE</h1>
+        <nav>
+            <button id="home">Home <i class="fas fa-home"></i></button>
+            <button id="tasks">Tasks <i class="fas fa-tasks"></i></button>
+            <button id="referral">Referral <i class="fas fa-users"></i></button>
+            <button id="wallet">Link Wallet <i class="fas fa-wallet"></i></button>
+        </nav>
+    </header>
+    <main>
+        <section id="tasks-container" class="tasks-section">
+            <h2>Tasks</h2>
+            <div id="task1" class="task-item">
+                <label>Follow our X account</label>
+                <p>Reward: 10 $TIME</p>
+                <button class="task-button" id="task1-btn">Follow</button>
+            </div>
+            <div id="task2" class="task-item">
+                <label>Join our Telegram channel</label>
+                <p>Reward: 20 $TIME</p>
+                <button class="task-button" id="task2-btn">Join</button>
+            </div>
+            <div id="task3" class="task-item">
+                <label>Subscribe to our YouTube channel</label>
+                <p>Reward: 30 $TIME</p>
+                <button class="task-button" id="task3-btn">Subscribe</button>
+            </div>
+        </section>        
+        <section class="boosters-section">
+            <h2>Boosters</h2>
+            <div id="boosters-container">
+                <div class="booster-item">
+                    <p>Daily Login Bonus: <span id="daily-bonus">$50.00</span></p>
+                    <button id="claim-bonus">Claim Bonus</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
