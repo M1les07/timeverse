@@ -1,0 +1,605 @@
+body {
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    background: #000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #00d4ff; /* Cyan color for the heading */
+}
+
+#user-info {
+    margin-bottom: 20px;
+}
+
+#profile-pic i {
+    font-size: 80px;
+    color: #00d4ff;
+}
+
+#earnings-display {
+    margin-bottom: 20px;
+}
+
+#earnings-text, #time-online {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#start-button {
+    background-color: #00ff99; 
+    color: #000;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+#start-button i {
+    margin-right: 10px;
+}
+
+#start-button:hover {
+    transform: scale(1.1);
+}
+
+#navigation .btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+#navigation .btn i {
+    margin-right: 10px;
+}
+
+#navigation .btn:hover {
+    transform: scale(1.1);
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button i {
+    margin-right: 8px;
+}
+
+.button:hover {
+    background-color: #444;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Base styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-color: #121212;
+    color: #fff;
+}
+
+header {
+    background-color: #1e1e1e;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav button {
+    background: transparent;
+    border: 2px solid #00ff99;
+    color: #00ff99;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin: 5px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav button:hover {
+    background: #00ff99;
+    color: #121212;
+}
+
+main {
+    padding: 20px;
+}
+
+.tasks-section, .boosters-section, .earnings-section {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.task-item, .booster-item {
+    background-color: #222;
+    border: 1px solid #00ff99;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.task-item label, .booster-item p {
+    font-size: 1.2em;
+}
+
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+/* Futuristic color lines */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 255, 153, 0.5), rgba(0, 153, 255, 0.5));
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+    animation: animateBG 5s infinite alternate;
+}
+
+@keyframes animateBG {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #00ff99;
+    border-radius: 5px;
+    background-color: #333;
+}
+
+.task-item label {
+    font-size: 1.2em;
+    color: #fff;
+}
+
+.task-item button {
+    background-color: #00ff99;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.task-item button:hover {
+    background-color: #00cc7a;
+}
+
+/* Claim Bonus Button */
+#claim-bonus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 5px;
+    background-color: #00ff99; /* Bright green */
+    color: black; /* Text color */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#claim-bonus:hover {
+    background-color: #00cc79; /* Slightly darker green on hover */
+}
+
+/* Transitions for Buttons */
+button, .button {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover, .button:hover {
+    background-color: #444; /* Darker shade for hover */
+    transform: scale(1.05); /* Slightly larger on hover */
+}
+
+/* Media Query for Mobile Screens */
+@media (max-width: 600px) {
+    body, html {
+        font-size: 0.9em; /* Slightly smaller text for smaller screens */
+    }
+    
+    header h1 {
+        font-size: 2em; /* Adjust heading size */
+    }
+
+    button, .button {
+        padding: 8px 16px; /* Adjust padding for smaller buttons */
+    }
+    
+    .task-item, .booster-item {
+        padding: 8px; /* Adjust padding for smaller screens */
+    }
+}
+
+/* Smooth Background Animation */
+body::before {
+    animation: animateBG 10s infinite alternate ease-in-out;
+}
+
+/* Smooth Scaling Animation */
+@keyframes animateBG {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100% 100%;
+    }
+}
+
+/* Referral Section */
+#referral-section, #referral-info {
+    background-color: #1e1e1e;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#referral-code-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+#referral-code {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+#copy-code-button {
+    background-color: #00ff99;
+    color: #000;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#copy-code-button:hover {
+    background-color: #00cc7a;
+}
+
+#referred-users-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+#referred-users-list li {
+    background-color: #222;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.referral-section {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.referral-code-container {
+    margin: 20px 0;
+    background-color: #222;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #00ff99;
+}
+
+#referral-code {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+#copy-code {
+    background-color: #00ff99;
+    border: none;
+    color: #121212;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#copy-code:hover {
+    background-color: #00cc80;
+}
+
+.referral-info {
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+.wallet-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    color: #00ff99;
+    border: 2px solid #00ff99;
+    border-radius: 10px;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.wallet-button img.wallet-icon {
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    margin-right: 10px;
+}
+
+.wallet-button:hover {
+    background: #00ff99;
+    color: #121212;
+}
+
+.wallet-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    color: #00ff99;
+    border: 2px solid #00ff99;
+    border-radius: 10px;
+    transition: background 0.3s, color 0.3s;
+    cursor: pointer;
+}
+
+.wallet-button img.wallet-icon {
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    margin-right: 10px;
+}
+
+.wallet-button:hover {
+    background: #00ff99;
+    color: #121212;
+}
+
+#wallet-address-display {
+    margin-top: 20px;
+}
+
+#wallet-address-display p {
+    color: #fff;
+    font-size: 16px;
+}
+
+#wallet-address {
+    font-weight: bold;
+    color: #00ff99;
+}
+
+#unlink-wallet {
+    margin-top: 10px;
+    padding: 10px 20px;
+    color: #00ff99;
+    background: transparent;
+    border: 2px solid #00ff99;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+#unlink-wallet:hover {
+    background: #00ff99;
+    color: #121212;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #333;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2em;
+    color: #00ff99; /* Updated header color */
+    margin: 0;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav button {
+    background: #00ff99; /* Updated button color */
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+nav button:hover {
+    background: #00cc80; /* Darker shade for hover effect */
+}
+
+main {
+    padding: 20px;
+}
+
+.tasks-section {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.tasks-section h2 {
+    color: #00ff99; /* Updated section heading color */
+    margin-bottom: 20px;
+}
+
+.task-item {
+    margin-bottom: 15px;
+}
+
+.task-item p {
+    color: #00ff99; /* Updated reward text color */
+    font-size: 1em;
+}
+
+.task-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #00ff99; /* Updated button color */
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: normal; /* Remove bold */
+}
+
+.task-button:hover {
+    background: #00cc80; /* Darker shade for hover effect */
+}
+
+.boosters-section {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.booster-item p {
+    color: #00ff99; /* Updated booster text color */
+}
+
+#claim-bonus {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#claim-bonus:hover {
+    background: #2ecc71;
+}
+
+.wallet-button img.wallet-icon {
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    margin-right: 10px;
+}
+
+.wallet-button:hover {
+    background: #00ff99;
+    color: #121212;
+}
+
+.task-completed {
+    pointer-events: none;
+    background-color: #d3d3d3; /* Example of greyed out */
+    color: #000;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
