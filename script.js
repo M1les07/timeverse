@@ -152,24 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('claim-bonus')?.addEventListener('click', claimBonus);
 });
 
-// Example MetaMask connection functionality
-document.getElementById('connect-metamask')?.addEventListener('click', async () => {
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const userAddress = accounts[0];
-
-            // Display the user's wallet address
-            document.getElementById('wallet-address').textContent = userAddress;
-            localStorage.setItem('userWallet', userAddress);
-        } catch (error) {
-            console.error('User denied account access or other error', error);
-        }
-    } else {
-        alert('MetaMask is not installed. Please install it to use this feature.');
-    }
-});
-
 // Load wallet address from localStorage if already connected
 document.addEventListener('DOMContentLoaded', () => {
     const savedAddress = localStorage.getItem('userWallet');
