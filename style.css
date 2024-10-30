@@ -393,29 +393,6 @@ body::before {
     margin-top: 20px;
     font-size: 1.2rem;
 }
-.wallet-button {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 10px 0;
-    text-decoration: none;
-    color: #00ff99;
-    border: 2px solid #00ff99;
-    border-radius: 10px;
-    transition: background 0.3s, color 0.3s;
-    cursor: pointer;
-}
-
-.wallet-button img.wallet-icon {
-    width: 30px; /* Adjust the size as needed */
-    height: 30px; /* Adjust the size as needed */
-    margin-right: 10px;
-}
-
-.wallet-button:hover {
-    background: #00ff99;
-    color: #121212;
-}
 
 .wallet-button {
     display: flex;
@@ -423,17 +400,11 @@ body::before {
     padding: 10px 20px;
     margin: 10px 0;
     text-decoration: none;
-    color: #00ff99;
+    color: white;
     border: 2px solid #00ff99;
     border-radius: 10px;
     transition: background 0.3s, color 0.3s;
     cursor: pointer;
-}
-
-.wallet-button img.wallet-icon {
-    width: 30px; /* Adjust the size as needed */
-    height: 30px; /* Adjust the size as needed */
-    margin-right: 10px;
 }
 
 .wallet-button:hover {
@@ -453,22 +424,6 @@ body::before {
 #wallet-address {
     font-weight: bold;
     color: #00ff99;
-}
-
-#unlink-wallet {
-    margin-top: 10px;
-    padding: 10px 20px;
-    color: #00ff99;
-    background: transparent;
-    border: 2px solid #00ff99;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-}
-
-#unlink-wallet:hover {
-    background: #00ff99;
-    color: #121212;
 }
 
 body {
@@ -573,17 +528,6 @@ main {
     background: #2ecc71;
 }
 
-.wallet-button img.wallet-icon {
-    width: 30px; /* Adjust the size as needed */
-    height: 30px; /* Adjust the size as needed */
-    margin-right: 10px;
-}
-
-.wallet-button:hover {
-    background: #00ff99;
-    color: #121212;
-}
-
 .task-completed {
     pointer-events: none;
     background-color: #d3d3d3; /* Example of greyed out */
@@ -592,7 +536,7 @@ main {
 
 button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #27ae60;
     color: white;
     border: none;
     cursor: pointer;
@@ -602,4 +546,18 @@ button {
 button:disabled {
     background-color: #d3d3d3;
     cursor: not-allowed;
+}
+
+.wallet-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    font-size: 1em;
+    color: #000;
+}
+
+.wallet-icon {
+    width: 24px;
+    height: 24px;
 }
