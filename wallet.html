@@ -18,21 +18,19 @@
         </nav>
     </header>
     <main>
-        <section class="wallet-section">
+        <div class="wallet-section">
             <h2>Link Your Wallet</h2>
-            <p>Link your crypto wallet to manage your $TIME tokens and participate in Timeverse rewards.</p>
-            <div id="wallet-options">
-                <href="" target="_blank" class="wallet-button">
-                    <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" alt="TON Wallet Logo" class="wallet-icon">
-                    TON Wallet
-                    <div id="wallet-linking-section" style="display: none;">
-                      </div>
-            </div>
-            <p class="coming-soon">Coming Soon</p>
+            <p>Link your MetaMask wallet to manage your $TIME tokens and participate in Timeverse rewards.</p>
+            <!-- New MetaMask Wallet Connection Button -->
+                <button id="connect-metamask" class="wallet-button">
+                    <img src="https://w7.pngwing.com/pngs/863/409/png-transparent-metamask-blockchain-cryptocurrency-crypto-wallet-digital-3d-icon-thumbnail.png" alt="MetaMask Logo" class="wallet-icon">
+                    Connect MetaMask Wallet
+                </button>
             <div id="wallet-address-display">
                 <p>Your linked wallet address: <span id="wallet-address">Not linked</span></p>
             </div>
-            
+        </div>
+                
         </section>
     </main>
     <script src="script.js"></script>
