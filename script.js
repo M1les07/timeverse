@@ -23,11 +23,10 @@ function updateDailyBonusAmount() {
 
 // Function to claim daily bonus
 function claimBonus() {
-    // Change the button text to "Claimed"
     const claimButton = document.getElementById('claimBonusButton');
     claimButton.innerText = "Claimed";
-}
     const today = new Date().toISOString().split('T')[0];
+    
     if (lastLoginDate !== today) {
         earnings += dailyBonusAmount;
         updateEarnings();
@@ -40,15 +39,30 @@ function claimBonus() {
     } else {
         // alert("You've already claimed your daily bonus today. Come back tomorrow!");
     }
+}
 
 // Function to handle task completion
-function completeTask(taskId, reward) {
+function completeTask(taskId, reward, taskUrl) {
     if (!tasksCompleted[taskId]) {
         earnings += reward;
         updateEarnings();
         tasksCompleted[taskId] = true;
         localStorage.setItem('tasksCompleted', JSON.stringify(tasksCompleted));
         alert(`Task completed! You've earned $${reward.toFixed(2)}`);
+
+        // Navigate to the task URL
+        window.location.href = taskUrl;
+
+        // Update the task item to indicate it's completed
+        const taskElement = document.getElementById(taskId);
+        if (taskElement) {
+            taskElement.classList.add('completed');
+            const button = taskElement.querySelector('button');
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Completed';
+            }
+        }
     } else {
         alert("Task already completed!");
     }
@@ -68,6 +82,21 @@ function loadSavedData() {
 
     updateEarnings();
     updateDailyBonusAmount();
+
+    // Update the UI for completed tasks
+    Object.keys(tasksCompleted).forEach(taskId => {
+        if (tasksCompleted[taskId]) {
+            const taskElement = document.getElementById(taskId);
+            if (taskElement) {
+                taskElement.classList.add('completed');
+                const button = taskElement.querySelector('button');
+                if (button) {
+                    button.disabled = true;
+                    button.textContent = 'Completed';
+                }
+            }
+        }
+    });
 }
 
 // Function to update the time spent online
@@ -114,284 +143,65 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('referral')?.addEventListener('click', () => navigateTo('referral.html'));
     document.getElementById('wallet')?.addEventListener('click', () => navigateTo('wallet.html'));
 
-    // Task buttons with rewards (example rewards are given, adjust as necessary)
-    document.getElementById('task1')?.addEventListener('click', () => completeTask('task1', 10)); // Example reward
-    document.getElementById('task2')?.addEventListener('click', () => completeTask('task2', 20)); // Example reward
-    document.getElementById('task3')?.addEventListener('click', () => completeTask('task3', 30)); // Example reward
+    // Task buttons with specified rewards and URLs
+    document.getElementById('task1')?.addEventListener('click', () => completeTask('task1', 50, 'https://x.com/Timeverse_earn')); // Reward for task 1
+    document.getElementById('task2')?.addEventListener('click', () => completeTask('task2', 70, 'https://t.me/timeverse_coin')); // Reward for task 2
+    document.getElementById('task3')?.addEventListener('click', () => completeTask('task3', 150, '"https://www.youtube.com/@Timeverse-official')); // Reward for task 3
 
     // Daily bonus button
-    document.getElementById('claim-bonus')?.addEventListener('click', claimDailyBonus);
+    document.getElementById('claim-bonus')?.addEventListener('click', claimBonus);
 });
 
-function completeTask(taskId, reward) {
-    if (!tasksCompleted[taskId]) {
-        earnings += reward;
-        updateEarnings();
-        tasksCompleted[taskId] = true;
-        localStorage.setItem('tasksCompleted', JSON.stringify(tasksCompleted));
-        alert(`Task completed! You've earned $${reward.toFixed(2)}`);
+// Example MetaMask connection functionality
+document.getElementById('connect-metamask')?.addEventListener('click', async () => {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const userAddress = accounts[0];
 
-        // Update the task item to indicate it's completed
-        const taskElement = document.getElementById(taskId);
-        if (taskElement) {
-            taskElement.classList.add('completed');
-            const button = taskElement.querySelector('button');
-            if (button) {
-                button.disabled = true;
-                button.textContent = 'Completed';
-            }
+            // Display the user's wallet address
+            document.getElementById('wallet-address').textContent = userAddress;
+            localStorage.setItem('userWallet', userAddress);
+        } catch (error) {
+            console.error('User denied account access or other error', error);
         }
     } else {
-        alert("Task already completed!");
+        alert('MetaMask is not installed. Please install it to use this feature.');
     }
-}
+});
 
-function loadSavedData() {
-    // Existing code to load earnings, daily bonus, etc.
+// Load wallet address from localStorage if already connected
+document.addEventListener('DOMContentLoaded', () => {
+    const savedAddress = localStorage.getItem('userWallet');
+    if (savedAddress) {
+        document.getElementById('wallet-address').textContent = savedAddress;
+    }
+});
 
-    // Update the UI for completed tasks
-    Object.keys(tasksCompleted).forEach(taskId => {
-        if (tasksCompleted[taskId]) {
-            const taskElement = document.getElementById(taskId);
-            if (taskElement) {
-                taskElement.classList.add('completed');
-                const button = taskElement.querySelector('button');
-                if (button) {
-                    button.disabled = true;
-                    button.textContent = 'Completed';
-                }
-            }
+// MetaMask Connection Function
+async function connectMetaMask() {
+    // Check if MetaMask is installed
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            // Request account access
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const walletAddress = accounts[0];
+
+            // Store the wallet address and update display
+            localStorage.setItem('walletAddress', walletAddress);
+            alert(`MetaMask Wallet Connected: ${walletAddress}`);
+
+            // Update UI to show as "Linked"
+            const metaMaskButton = document.getElementById('connect-metamask');
+            metaMaskButton.textContent = "MetaMask Linked";
+            metaMaskButton.disabled = true;
+        } catch (error) {
+            console.error("User rejected connection or an error occurred:", error);
         }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Copy referral code to clipboard
-    const copyCodeButton = document.getElementById('copy-code-button');
-    const referralCode = document.getElementById('referral-code').innerText;
-
-    if (copyCodeButton) {
-        copyCodeButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(referralCode).then(() => {
-                alert('Referral code copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Load saved referral data
-    let referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
-    let referralRewards = parseFloat(localStorage.getItem('referralRewards')) || 0;
-    let userReferralCode = localStorage.getItem('userReferralCode') || generateReferralCode();
-
-    // Update the UI with referral data
-    document.getElementById('referral-count').textContent = referralCount;
-    document.getElementById('referral-rewards').textContent = `$${referralRewards.toFixed(2)}`;
-    document.getElementById('referral-code').textContent = userReferralCode;
-
-    // Handle copy referral code button
-    document.getElementById('copy-code').addEventListener('click', () => {
-        navigator.clipboard.writeText(userReferralCode).then(() => {
-            alert('Referral code copied to clipboard!');
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-        });
-    });
-});
-
-// Function to generate a unique referral code
-function generateReferralCode() {
-    let code = 'REF' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-    localStorage.setItem('userReferralCode', code);
-    return code;
-}
-
-// Function to simulate a successful referral
-function simulateReferral() {
-    let referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
-    let referralRewards = parseFloat(localStorage.getItem('referralRewards')) || 0;
-
-    referralCount += 1;
-    referralRewards += 5.00; // Reward of 5 $TIME tokens per referral
-
-    localStorage.setItem('referralCount', referralCount);
-    localStorage.setItem('referralRewards', referralRewards);
-
-    document.getElementById('referral-count').textContent = referralCount;
-    document.getElementById('referral-rewards').textContent = `$${referralRewards.toFixed(2)}`;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('ton-wallet').addEventListener('click', () => {
-        window.open('https://ton.org/wallet', '_blank');
-    });
-
-    document.getElementById('telegram-wallet').addEventListener('click', () => {
-        window.open('https://t.me/Theamazingtimeversebot', '_blank');
-    });
-});
-
-document.getElementById('ton-wallet-button').addEventListener('click', function() {
-    document.getElementById('wallet-linking-section').style.display = 'block';
-  });
-  
-  document.getElementById('link-wallet-button').addEventListener('click', function() {
-    var walletAddress = document.getElementById('ton-wallet-address').value;
-    // Send the wallet address to the backend to link it with the user's account
-    // Example using fetch:
-    fetch('/link-wallet', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ walletAddress: walletAddress })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Wallet linked successfully!');
-        window.location.href = '/referral'; // Redirect to the referral page
-      } else {
-        alert('Failed to link wallet. Please try again.');
-      }
-    });
-  });
-  
-  // Function to generate a unique referral code if not already present
-function generateReferralCode() {
-    let userReferralCode = localStorage.getItem('userReferralCode');
-    if (!userReferralCode) {
-        userReferralCode = 'REF' + Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-        localStorage.setItem('userReferralCode', userReferralCode);
-    }
-    return userReferralCode;
-}
-
-// Function to update the referral code on both the Home and Referral pages
-function updateReferralCodeDisplay() {
-    const userReferralCode = generateReferralCode(); // Ensure the referral code is generated or retrieved
-    const referralCodeElements = document.querySelectorAll('#referral-code-home, #referral-code-referral'); // Adjust selectors to match IDs
-
-    referralCodeElements.forEach(element => {
-        if (element) element.textContent = userReferralCode;
-    });
-}
-
-// Event listener to handle DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-    // Call updateReferralCodeDisplay on both pages
-    updateReferralCodeDisplay();
-
-    // Other existing code for handling different features...
-
-    // Example: Copy referral code to clipboard
-    const copyCodeButton = document.getElementById('copy-code');
-    if (copyCodeButton) {
-        copyCodeButton.addEventListener('click', () => {
-            const userReferralCode = localStorage.getItem('userReferralCode');
-            navigator.clipboard.writeText(userReferralCode).then(() => {
-                alert('Referral code copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        });
-    }
-
-    // Existing code for task completion, daily bonus, etc.
-});
-
-// Example script.js to update user name
-document.addEventListener('DOMContentLoaded', () => {
-    // Replace this with your method to get the user's name
-    const userName = localStorage.getItem('userName') || 'User';
-
-    // Update the user name in the HTML
-    document.getElementById('user-name').textContent = userName;
-
-    // Additional code to update earnings and time online if needed
-});
-
-// Task Completion Logic
-function completeTask(taskId, reward) {
-    const taskElement = document.getElementById(`${taskId}-btn`);
-    taskElement.innerText = `Task Completed - Earned ${reward} $TIME`;
-    taskElement.classList.add('task-completed');
-    taskElement.disabled = true; // Disable the button
-}
-
-// Event listeners for tasks
-document.getElementById('task1-btn').addEventListener('click', () => {
-    completeTask('task1', 10);
-});
-
-document.getElementById('task2-btn').addEventListener('click', () => {
-    completeTask('task2', 20);
-});
-
-document.getElementById('task3-btn').addEventListener('click', () => {
-    completeTask('task3', 30);
-});
-
-// Login Bonus Logic
-let loginBonus = 50; // Starting Bonus
-let lastClaimed = localStorage.getItem('lastClaimed') || null; // Last claimed timestamp
-
-function claimBonus() {
-    const now = new Date().getTime();
-    const claimedToday = lastClaimed && (now - lastClaimed) < 24 * 60 * 60 * 1000; // Check if claimed today
-
-    if (!claimedToday) {
-        // Bonus Claim
-        document.getElementById('daily-bonus').innerText = `$${loginBonus}.00`;
-        document.getElementById('claim-bonus').innerText = 'Completed';
-        document.getElementById('claim-bonus').disabled = true;
-        localStorage.setItem('lastClaimed', now);
-
-        // Prepare for next bonus
-        loginBonus += 50; // Increase by $50 for next day
-        if (loginBonus > 1000) loginBonus = 50; // Prevent it from increasing too high
-
     } else {
-        alert("You've already claimed today's bonus!");
+        alert("MetaMask is not installed. Please install MetaMask and try again.");
     }
 }
 
-function resetBonusIfMissed() {
-    const now = new Date().getTime();
-    const lastClaim = localStorage.getItem('lastClaimed');
-
-    // Reset to $50 if 24 hours passed without claim
-    if (lastClaim && (now - lastClaim) > 48 * 60 * 60 * 1000) {
-        loginBonus = 50;
-        localStorage.removeItem('lastClaimed');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    resetBonusIfMissed(); // Resets if missed a day
-    document.getElementById('claim-bonus').addEventListener('click', claimBonus);
-});
-
-// Check if the Telegram WebApp is available
-if (window.Telegram && window.Telegram.WebApp) {
-    const tg = window.Telegram.WebApp;
-
-    // Wait for the WebApp to be ready
-    tg.ready();
-
-    // Get the user's first name and username
-    const firstName = tg.initDataUnsafe.user.first_name;
-    const username = tg.initDataUnsafe.user.username;
-
-    // Display the user's name on the webpage
-    const userGreeting = document.getElementById('user-greeting');
-    userGreeting.textContent = `Welcome, ${firstName || username}!`;
-
-    // Example: Show the WebApp's theme color (optional)
-    console.log(`WebApp color scheme: ${tg.colorScheme}`);
-} else {
-    console.error("Telegram WebApp API not available.");
-}
+// Event listener for the new MetaMask button
+document.getElementById('connect-metamask').addEventListener('click', connectMetaMask);
