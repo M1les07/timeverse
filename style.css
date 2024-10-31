@@ -549,7 +549,8 @@ button:disabled {
 }
 
 .wallet-button {
-    display: flex;
+    display: -webkit-inline-flex;
+    justify-content: right;
     align-items: center;
     gap: 8px;
     padding: 10px;
