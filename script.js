@@ -160,30 +160,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// MetaMask Connection Function
-async function connectMetaMask() {
-    // Check if MetaMask is installed
+let userWalletAddress = "";
+
+// Function to check MetaMask connection and update status
+async function initializeMetaMaskConnection() {
     if (typeof window.ethereum !== 'undefined') {
+        console.log("MetaMask detected");
         try {
-            // Request account access
-            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const walletAddress = accounts[0];
-
-            // Store the wallet address and update display
-            localStorage.setItem('walletAddress', walletAddress);
-            alert(`MetaMask Wallet Connected: ${walletAddress}`);
-
-            // Update UI to show as "Linked"
-            const metaMaskButton = document.getElementById('connect-metamask');
-            metaMaskButton.textContent = "MetaMask Linked";
-            metaMaskButton.disabled = true;
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+                userWalletAddress = accounts[0];
+                document.getElementById('walletStatus').textContent = `Linked: ${userWalletAddress}`;
+                console.log("Wallet linked:", userWalletAddress);
+            } else {
+                document.getElementById('walletStatus').textContent = 'Not linked';
+                console.log("No wallet connected");
+            }
         } catch (error) {
-            console.error("User rejected connection or an error occurred:", error);
+            console.error('Error checking MetaMask connection:', error);
+            document.getElementById('walletStatus').textContent = 'Error connecting';
         }
     } else {
-        alert("MetaMask is not installed. Please install MetaMask and try again.");
+        document.getElementById('walletStatus').textContent = 'MetaMask not installed';
+        console.log("MetaMask not installed");
     }
 }
 
-// Event listener for the new MetaMask button
-document.getElementById('connect-metamask').addEventListener('click', connectMetaMask);
+// Function to request connection to MetaMask and update status
+async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+        console.log("Attempting to connect to MetaMask...");
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            if (accounts.length > 0) {
+                userWalletAddress = accounts[0];
+                document.getElementById('walletStatus').textContent = `Linked: ${userWalletAddress}`;
+                console.log("Connected to wallet:", userWalletAddress);
+            } else {
+                document.getElementById('walletStatus').textContent = 'Not linked';
+                console.log("Wallet connection declined or failed");
+            }
+        } catch (error) {
+            console.error('Error connecting to MetaMask:', error);
+            document.getElementById('walletStatus').textContent = 'Connection failed';
+        }
+    } else {
+        alert('MetaMask is not installed. Please install it to continue.');
+        console.log("MetaMask is not installed alert triggered");
+    }
+}
+
+// Run check on page load
+window.addEventListener('load', initializeMetaMaskConnection);
+
+let walletConnector;
+
+// Function to connect using WalletConnect and display wallet address
+async function connectWithWalletConnect() {
+    walletConnector = new WalletConnect.default({
+        bridge: "wss://safe-walletconnect.gnosis.io" // alternative bridge for stability
+    });
+
+    // Check if already connected
+    if (!walletConnector.connected) {
+        // Create a session and listen for connection events
+        await walletConnector.createSession();
+    }
+
+    // Listen for successful connection
+    walletConnector.on("connect", (error, payload) => {
+        if (error) {
+            console.error("Connection error:", error);
+            return;
+        }
+
+        // Get wallet address
+        const { accounts } = payload.params[0];
+        const userWalletAddress = accounts[0];
+        document.getElementById('walletStatus').textContent = `Linked: ${userWalletAddress}`;
+        console.log("Connected with WalletConnect:", userWalletAddress);
+    });
+
+    // Handle disconnection
+    walletConnector.on("disconnect", (error) => {
+        if (error) {
+            console.error("Disconnection error:", error);
+        }
+
+        document.getElementById('walletStatus').textContent = 'Not linked';
+        console.log("Disconnected from WalletConnect");
+    });
+}
+
+// Button to trigger WalletConnect connection
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("connectWallet").addEventListener("click", connectWithWalletConnect);
+});
+
