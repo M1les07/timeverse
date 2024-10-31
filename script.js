@@ -215,45 +215,37 @@ window.addEventListener('load', initializeMetaMaskConnection);
 
 let walletConnector;
 
-// Function to connect using WalletConnect and display wallet address
 async function connectWithWalletConnect() {
     walletConnector = new WalletConnect.default({
-        bridge: "wss://safe-walletconnect.gnosis.io" // alternative bridge for stability
+        bridge: "wss://safe-walletconnect.gnosis.io" // alternative bridge
     });
 
     // Check if already connected
     if (!walletConnector.connected) {
-        // Create a session and listen for connection events
+        console.log("Creating WalletConnect session...");
         await walletConnector.createSession();
     }
 
-    // Listen for successful connection
     walletConnector.on("connect", (error, payload) => {
         if (error) {
             console.error("Connection error:", error);
             return;
         }
 
-        // Get wallet address
         const { accounts } = payload.params[0];
         const userWalletAddress = accounts[0];
         document.getElementById('walletStatus').textContent = `Linked: ${userWalletAddress}`;
-        console.log("Connected with WalletConnect:", userWalletAddress);
+        console.log("Connected to WalletConnect with address:", userWalletAddress);
     });
 
-    // Handle disconnection
     walletConnector.on("disconnect", (error) => {
         if (error) {
             console.error("Disconnection error:", error);
         }
-
         document.getElementById('walletStatus').textContent = 'Not linked';
         console.log("Disconnected from WalletConnect");
     });
 }
 
 // Button to trigger WalletConnect connection
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("connectWallet").addEventListener("click", connectWithWalletConnect);
-});
-
+document.getElementById("connectWallet").addEventListener("click", connectWithWalletConnect);
