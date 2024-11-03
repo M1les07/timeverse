@@ -48,7 +48,7 @@ function completeTask(taskId, reward, taskUrl) {
         updateEarnings();
         tasksCompleted[taskId] = true;
         localStorage.setItem('tasksCompleted', JSON.stringify(tasksCompleted));
-        alert(`Task completed! You've earned $${reward.toFixed(2)}`);
+        // alert(`Task completed! You've earned $${reward.toFixed(2)}`);
 
         // Navigate to the task URL
         window.location.href = taskUrl;
@@ -64,7 +64,7 @@ function completeTask(taskId, reward, taskUrl) {
             }
         }
     } else {
-        alert("Task already completed!");
+        ("Task already completed!");
     }
 }
 
@@ -181,8 +181,8 @@ async function initializeMetaMaskConnection() {
             document.getElementById('walletStatus').textContent = 'Error connecting';
         }
     } else {
-        document.getElementById('walletStatus').textContent = 'MetaMask not installed';
-        console.log("MetaMask not installed");
+        // document.getElementById('walletStatus').textContent = 'MetaMask not installed';
+        // console.log("MetaMask not installed");
     }
 }
 
@@ -205,8 +205,8 @@ async function connectWallet() {
             document.getElementById('walletStatus').textContent = 'Connection failed';
         }
     } else {
-        alert('MetaMask is not installed. Please install it to continue.');
-        console.log("MetaMask is not installed alert triggered");
+        // alert('MetaMask is not installed. Please install it to continue.');
+        // console.log("MetaMask is not installed alert triggered");
     }
 }
 
@@ -215,37 +215,66 @@ window.addEventListener('load', initializeMetaMaskConnection);
 
 let walletConnector;
 
+// Function to connect using WalletConnect and display wallet address
 async function connectWithWalletConnect() {
     walletConnector = new WalletConnect.default({
-        bridge: "wss://safe-walletconnect.gnosis.io" // alternative bridge
+        bridge: "wss://safe-walletconnect.gnosis.io" // alternative bridge for stability
     });
 
     // Check if already connected
     if (!walletConnector.connected) {
-        console.log("Creating WalletConnect session...");
+        // Create a session and listen for connection events
         await walletConnector.createSession();
     }
 
+    // Listen for successful connection
     walletConnector.on("connect", (error, payload) => {
         if (error) {
             console.error("Connection error:", error);
             return;
         }
 
+        // Get wallet address
         const { accounts } = payload.params[0];
         const userWalletAddress = accounts[0];
         document.getElementById('walletStatus').textContent = `Linked: ${userWalletAddress}`;
-        console.log("Connected to WalletConnect with address:", userWalletAddress);
+        console.log("Connected with WalletConnect:", userWalletAddress);
     });
 
+    // Handle disconnection
     walletConnector.on("disconnect", (error) => {
         if (error) {
             console.error("Disconnection error:", error);
         }
+
         document.getElementById('walletStatus').textContent = 'Not linked';
         console.log("Disconnected from WalletConnect");
     });
 }
 
 // Button to trigger WalletConnect connection
-document.getElementById("connectWallet").addEventListener("click", connectWithWalletConnect);
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("connectWallet").addEventListener("click", connectWithWalletConnect);
+});
+
+// JavaScript for Disconnect Wallet functionality
+document.getElementById("disconnectWalletButton").addEventListener("click", () => {
+    disconnectWallet();
+});
+
+function disconnectWallet() {
+    // Clear any stored wallet information (assuming localStorage was used)
+    localStorage.removeItem("walletAddress");
+
+    // Update the UI to show "Not linked" status
+    const walletStatus = document.getElementById("walletStatus"); // Assuming an element shows the wallet status
+    walletStatus.textContent = "Not linked";
+
+    // Optionally: Alert the user
+    ("Wallet disconnected. You can now reconnect.");
+
+    // If WalletConnect is active, disconnect it here
+    if (walletConnectProvider) {  // Replace with actual WalletConnect provider instance if available
+        walletConnectProvider.disconnect();
+    }
+}
