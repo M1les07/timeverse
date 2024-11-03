@@ -13,13 +13,14 @@
         <nav>
             <button id="home">Home <i class="fas fa-home"></i></button>
             <button id="tasks">Tasks <i class="fas fa-tasks"></i></button>
-<!--             <button id="referral">Referral <i class="fas fa-users"></i></button> -->
+            <!-- <button id="referral">Referral <i class="fas fa-users"></i></button> -->
             <button id="wallet">Link Wallet <i class="fas fa-wallet"></i></button>
         </nav>
     </header>
     <main>
         <div class="wallet-section">
             <h2>Link Your Wallet</h2>
+            <h3>(Coming Soon)</h3>
             <p>Link your MetaMask wallet to manage your $TIME tokens and participate in Timeverse rewards.</p>
             <!-- New MetaMask Wallet Connection Button -->
                 <button id="connect-metamask" class="wallet-button">
@@ -30,8 +31,11 @@
                     <img src="https://res.cloudinary.com/dgsowylnz/image/upload/v1720656653/wallet_connect_Logo_8ccac66539.png" alt="Wallet connect logo" class="wallet-icon">
                     Connect with WalletConnect <br> (Mobile only)
                 </button>
+                <!-- Add this button in your HTML where you want the disconnect option to appear -->
+                <button id="disconnectWalletButton" class="wallet-button">
+                    Disconnect Wallet
+                </button>
             <div id="wallet-address-display">
-                <div id="walletStatus">Not Linked</div>
                 <p>Your linked wallet address: <div id="walletStatus">Not linked</div></p>
             </div>
         </div>   
